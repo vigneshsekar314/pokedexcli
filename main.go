@@ -1,12 +1,30 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"strings"
 )
 
 func main() {
-	fmt.Println("Hello, World!")
+	sc := bufio.NewScanner(os.Stdin)
+	for {
+		fmt.Print("pokedex > ")
+		comm := ""
+		sc.Scan()
+		comm += sc.Text()
+		if err := sc.Err(); err != nil {
+			fmt.Fprintln(os.Stderr, "reading standard input", err)
+		}
+		commands := cleanInput(comm)
+		firstWord := strings.ToLower(commands[0])
+		if len(commands) > 0 {
+			fmt.Printf("Your command was: %s\n", firstWord)
+		}
+
+	}
+
 }
 
 func cleanInput(text string) []string {
@@ -15,10 +33,8 @@ func cleanInput(text string) []string {
 	temp := ""
 	emptySpace := ' '
 	for _, letter := range cleanText {
-		fmt.Printf("character is - %c\n", letter)
 		if letter == emptySpace {
 			result = append(result, temp)
-			fmt.Printf("word added: %s\n", temp)
 			temp = ""
 		} else {
 			temp += string(letter)
