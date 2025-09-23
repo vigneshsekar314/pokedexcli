@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func commandHelp() error {
+func commandHelp(conf *config) error {
 	fmt.Fprintln(os.Stdout, "Welcome to the Pokedex!\nUsage:")
 	fmt.Fprintln(os.Stdout, "")
 	cliMapper := getCliMapper()

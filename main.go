@@ -28,7 +28,11 @@ func main() {
 				fmt.Fprintln(os.Stderr, "Callback not defined")
 				continue
 			}
-			if err := cmd.callback(); err != nil {
+			conf := config{
+				Next:     "https://pokeapi.co/api/v2/location-area/?offset=0&limit=20",
+				Previous: "",
+			}
+			if err := cmd.callback(&conf); err != nil {
 				fmt.Fprintln(os.Stderr, "Error in callback: ", err)
 			}
 		}
@@ -38,11 +42,21 @@ func main() {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*config) error
+}
+
+type config struct {
+	Next     string
+	Previous string
 }
 
 func getCliMapper() map[string]cliCommand {
 	return map[string]cliCommand{
+		"map": {
+			name:        "map",
+			description: "Displays names of 20 location areas in the Pokemon world.",
+			callback:    commandMap,
+		},
 		"help": {
 			name:        "help",
 			description: "Displays a help message",
