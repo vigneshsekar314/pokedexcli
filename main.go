@@ -7,12 +7,6 @@ import (
 	"strings"
 )
 
-type cliCommand struct {
-	name        string
-	description string
-	callback    func() error
-}
-
 func main() {
 	sc := bufio.NewScanner(os.Stdin)
 	cliMapper := getCliMapper()
@@ -41,20 +35,10 @@ func main() {
 	}
 }
 
-func commandExit() error {
-	fmt.Fprintln(os.Stdout, "Closing the Pokedex... Goodbye!")
-	os.Exit(0)
-	return nil
-}
-
-func commandHelp() error {
-	fmt.Fprintln(os.Stdout, "Welcome to the Pokedex!\nUsage:")
-	fmt.Fprintln(os.Stdout, "")
-	cliMapper := getCliMapper()
-	for _, cm := range cliMapper {
-		fmt.Fprintf(os.Stdout, fmt.Sprintf("%s: %s\n", cm.name, cm.description))
-	}
-	return nil
+type cliCommand struct {
+	name        string
+	description string
+	callback    func() error
 }
 
 func getCliMapper() map[string]cliCommand {
