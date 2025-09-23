@@ -15,18 +15,7 @@ type cliCommand struct {
 
 func main() {
 	sc := bufio.NewScanner(os.Stdin)
-	cliMapper := map[string]cliCommand{
-		"exit": {
-			name:        "exit",
-			description: "Exit the Pokedex",
-			callback:    commandExit,
-		},
-		"help": {
-			name:        "help",
-			description: "Provides help for the Pokedex",
-			callback:    commandHelp,
-		},
-	}
+	cliMapper := getCliMapper()
 	for {
 		fmt.Print("pokedex > ")
 		sc.Scan()
@@ -48,20 +37,6 @@ func main() {
 			if err := cmd.callback(); err != nil {
 				fmt.Fprintln(os.Stderr, "Error in callback: ", err)
 			}
-			// switch command {
-			// case "exit":
-			// 	cmd, ok := cliMapper["exit"]
-			// 	if !ok {
-			// 		fmt.Printf("exit command not found in mapper")
-			// 	}
-			// 	if cmd.callback != nil {
-			// 		if err := cmd.callback(); err != nil {
-			// 			fmt.Fprintln(os.Stderr, "Error in callback command:", err)
-			// 		}
-			// 	}
-			// default:
-			// 	fmt.Fprintln(os.Stderr, "Unknown command")
-			// }
 		}
 	}
 }
@@ -73,8 +48,28 @@ func commandExit() error {
 }
 
 func commandHelp() error {
-	fmt.Fprintln(os.Stdout, "Welcome to the Pokedex!\nUsage:\n\nhelp: Displays a help message\nexit: Exit the Pokedex")
+	fmt.Fprintln(os.Stdout, "Welcome to the Pokedex!\nUsage:")
+	fmt.Fprintln(os.Stdout, "")
+	cliMapper := getCliMapper()
+	for _, cm := range cliMapper {
+		fmt.Fprintf(os.Stdout, fmt.Sprintf("%s: %s\n", cm.name, cm.description))
+	}
 	return nil
+}
+
+func getCliMapper() map[string]cliCommand {
+	return map[string]cliCommand{
+		"help": {
+			name:        "help",
+			description: "Displays a help message",
+			callback:    commandHelp,
+		},
+		"exit": {
+			name:        "exit",
+			description: "Exit the Pokedex",
+			callback:    commandExit,
+		},
+	}
 }
 
 func cleanInput(text string) []string {
