@@ -10,6 +10,10 @@ import (
 func main() {
 	sc := bufio.NewScanner(os.Stdin)
 	cliMapper := getCliMapper()
+	conf := config{
+		Next:     "https://pokeapi.co/api/v2/location-area/?offset=0&limit=20",
+		Previous: "",
+	}
 	for {
 		fmt.Print("pokedex > ")
 		sc.Scan()
@@ -27,10 +31,6 @@ func main() {
 			if cmd.callback == nil {
 				fmt.Fprintln(os.Stderr, "Callback not defined")
 				continue
-			}
-			conf := config{
-				Next:     "https://pokeapi.co/api/v2/location-area/?offset=0&limit=20",
-				Previous: "",
 			}
 			if err := cmd.callback(&conf); err != nil {
 				fmt.Fprintln(os.Stderr, "Error in callback: ", err)
@@ -54,8 +54,13 @@ func getCliMapper() map[string]cliCommand {
 	return map[string]cliCommand{
 		"map": {
 			name:        "map",
-			description: "Displays names of 20 location areas in the Pokemon world.",
+			description: "Displays names of next 20 location areas in the Pokemon world.",
 			callback:    commandMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Displays names of previous 20 location areas in the Pokemon world.",
+			callback:    commandMapb,
 		},
 		"help": {
 			name:        "help",
