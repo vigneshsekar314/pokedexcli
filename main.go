@@ -3,7 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/vigneshsekar314/pokedexcli/internal/pokecache"
+	"github.com/vigneshsekar314/pokedexcli/internal/pokeapi"
 	"os"
 	"strings"
 	"time"
@@ -12,11 +12,12 @@ import (
 func main() {
 	sc := bufio.NewScanner(os.Stdin)
 	cliMapper := getCliMapper()
-	newCacheData := pokecache.NewCache(time.Second * 5)
+	default_url := "https://pokeapi.co/api/v2/location-area/?offset=0&limit=20"
+	default_prev_url := ""
 	conf := config{
-		Next:      "https://pokeapi.co/api/v2/location-area/?offset=0&limit=20",
-		Previous:  "",
-		CacheData: &newCacheData,
+		Next:     default_url,
+		Previous: default_prev_url,
+		Client:   pokeapi.NewClient(time.Second*60, time.Second*1),
 	}
 	for {
 		fmt.Print("pokedex > ")
@@ -41,18 +42,6 @@ func main() {
 			}
 		}
 	}
-}
-
-type cliCommand struct {
-	name        string
-	description string
-	callback    func(*config) error
-}
-
-type config struct {
-	Next      string
-	Previous  string
-	CacheData *pokecache.Cache
 }
 
 func getCliMapper() map[string]cliCommand {
