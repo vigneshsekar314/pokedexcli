@@ -3,16 +3,20 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/vigneshsekar314/pokedexcli/internal/pokecache"
 	"os"
 	"strings"
+	"time"
 )
 
 func main() {
 	sc := bufio.NewScanner(os.Stdin)
 	cliMapper := getCliMapper()
+	newCacheData := pokecache.NewCache(time.Second * 5)
 	conf := config{
-		Next:     "https://pokeapi.co/api/v2/location-area/?offset=0&limit=20",
-		Previous: "",
+		Next:      "https://pokeapi.co/api/v2/location-area/?offset=0&limit=20",
+		Previous:  "",
+		CacheData: &newCacheData,
 	}
 	for {
 		fmt.Print("pokedex > ")
@@ -46,8 +50,9 @@ type cliCommand struct {
 }
 
 type config struct {
-	Next     string
-	Previous string
+	Next      string
+	Previous  string
+	CacheData *pokecache.Cache
 }
 
 func getCliMapper() map[string]cliCommand {
