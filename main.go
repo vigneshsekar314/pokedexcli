@@ -73,6 +73,11 @@ func getCliMapper() map[string]cliCommand {
 			description: "Check information about a pokemon",
 			callback:    commandInspect,
 		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "Lists all the caught pokemon",
+			callback:    commandPokedex,
+		},
 		"help": {
 			name:        "help",
 			description: "Displays a help message",
