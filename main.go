@@ -17,7 +17,7 @@ func main() {
 	conf := config{
 		Next:     default_url,
 		Previous: default_prev_url,
-		Client:   pokeapi.NewClient(time.Second*60, time.Second*1),
+		Client:   pokeapi.NewClient(time.Second*60, time.Second*20),
 	}
 	for {
 		fmt.Print("pokedex > ")
