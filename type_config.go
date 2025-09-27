@@ -14,4 +14,5 @@ type config struct {
 	Next     string
 	Previous string
 	Client   pokeapi.Client
+	Args     []string
 }

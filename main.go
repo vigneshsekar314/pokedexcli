@@ -12,7 +12,7 @@ import (
 func main() {
 	sc := bufio.NewScanner(os.Stdin)
 	cliMapper := getCliMapper()
-	default_url := "https://pokeapi.co/api/v2/location-area/?offset=0&limit=20"
+	default_url := pokeapi.BaseUrl + "location-area/?offset=0&limit=20"
 	default_prev_url := ""
 	conf := config{
 		Next:     default_url,
@@ -28,6 +28,8 @@ func main() {
 		commands := cleanInput(sc.Text())
 		if len(commands) > 0 {
 			command := commands[0]
+			args := commands[1:]
+			conf.Args = args
 			cmd, ok := cliMapper[command]
 			if !ok {
 				fmt.Fprintln(os.Stderr, "Unknown command")
@@ -49,12 +51,17 @@ func getCliMapper() map[string]cliCommand {
 		"map": {
 			name:        "map",
 			description: "Displays names of next 20 location areas in the Pokemon world.",
-			callback:    commandMap,
+			callback:    commandMapf,
 		},
 		"mapb": {
 			name:        "mapb",
 			description: "Displays names of previous 20 location areas in the Pokemon world.",
 			callback:    commandMapb,
+		},
+		"explore": {
+			name:        "explore",
+			description: "Displays names of pokemon found in the location given.",
+			callback:    commandExplore,
 		},
 		"help": {
 			name:        "help",

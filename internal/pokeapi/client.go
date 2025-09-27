@@ -19,3 +19,5 @@ func NewClient(timeout, cacheInterval time.Duration) Client {
 		},
 	}
 }
+
+const BaseUrl = "https://pokeapi.co/api/v2/"
