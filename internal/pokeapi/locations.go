@@ -43,7 +43,7 @@ func GetResponse[T any](c *Client, url, errormsg string) (T, error) {
 	}
 	defer res.Body.Close()
 	if res.StatusCode != 200 {
-		return response, fmt.Errorf("%s\n", errormsg)
+		return response, fmt.Errorf("%s", errormsg)
 	}
 	data, err = BytesToJSON(res.Body, &response)
 	if err != nil {
