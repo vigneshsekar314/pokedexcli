@@ -11,8 +11,9 @@ type cliCommand struct {
 }
 
 type config struct {
-	Next     string
-	Previous string
-	Client   pokeapi.Client
-	Args     []string
+	Next       string
+	Previous   string
+	PokeClient pokeapi.Client
+	Args       []string
+	Pokeballs  pokeapi.PokeballInfo
 }

@@ -6,7 +6,7 @@ import (
 )
 
 func commandMapf(conf *config) error {
-	locationMap, err := conf.Client.GetLocationList(conf.Next)
+	locationMap, err := conf.PokeClient.GetLocationList(conf.Next)
 	if err != nil {
 		return fmt.Errorf("Error in calling LocationList: %w\n", err)
 	}
@@ -23,7 +23,7 @@ func commandMapb(conf *config) error {
 		fmt.Printf("you're on the first page\n")
 		return nil
 	}
-	locationMap, err := conf.Client.GetLocationList(conf.Previous)
+	locationMap, err := conf.PokeClient.GetLocationList(conf.Previous)
 	if err != nil {
 		return fmt.Errorf("Error in calling LocationList: %w\n", err)
 	}

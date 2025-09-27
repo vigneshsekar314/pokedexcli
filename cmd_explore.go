@@ -9,7 +9,7 @@ func commandExplore(conf *config) error {
 		fmt.Println("Location argument not available for explore")
 		return nil
 	}
-	response, err := conf.Client.GetPokemonByLocation(conf.Args[0])
+	response, err := conf.PokeClient.GetPokemonByLocation(conf.Args[0])
 	if err != nil {
 		return fmt.Errorf("Error in getting response: %w", err)
 	}

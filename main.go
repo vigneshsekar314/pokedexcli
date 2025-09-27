@@ -15,9 +15,9 @@ func main() {
 	default_url := pokeapi.BaseUrl + "location-area/?offset=0&limit=20"
 	default_prev_url := ""
 	conf := config{
-		Next:     default_url,
-		Previous: default_prev_url,
-		Client:   pokeapi.NewClient(time.Second*60, time.Second*20),
+		Next:       default_url,
+		Previous:   default_prev_url,
+		PokeClient: pokeapi.NewClient(time.Second*60, time.Second*20),
 	}
 	for {
 		fmt.Print("pokedex > ")
@@ -62,6 +62,11 @@ func getCliMapper() map[string]cliCommand {
 			name:        "explore",
 			description: "Displays names of pokemon found in the location given.",
 			callback:    commandExplore,
+		},
+		"catch": {
+			name:        "catch",
+			description: "Attempt to catch a pokemon with the given name.",
+			callback:    commandCatch,
 		},
 		"help": {
 			name:        "help",
